@@ -6,7 +6,7 @@ function epicerie_membre3_seed_content() {
         return;
     }
 
-    $version = '2026-08-28-1';
+    $version = '2026-08-28-4';
 
     if ( get_option( 'epicerie_membre3_seed_version' ) === $version ) {
         return;
@@ -121,6 +121,7 @@ function epicerie_membre3_seed_content() {
 
     epicerie_membre3_update_menu(
         array(
+            'Accueil'             => 0,
             'Blog'                => $blog_page,
             'Contact'             => $contact_page,
             'Avis et réputation'  => $reviews_page,
@@ -307,7 +308,7 @@ FORM;
 function epicerie_membre3_blog_page_content() {
     return <<<HTML
 <section class="epicerie-section epicerie-blog-intro">
-    <h1>Blog</h1>
+    <h2>Nos articles</h2>
     <p>Dans cette partie, on partage des conseils simples pour mieux acheter au quotidien, comprendre les produits frais et voir un peu ce qui se passe dans l épicerie.</p>
 </section>
 
@@ -336,7 +337,7 @@ function epicerie_membre3_contact_page_content( $form_id ) {
 
     return <<<HTML
 <section class="epicerie-section epicerie-contact">
-    <h1>Contact</h1>
+    <h2>Nous joindre facilement</h2>
     <p>Pour une question sur les produits, une commande simple ou une demande d information, vous pouvez passer au magasin ou envoyer un message.</p>
     <div class="epicerie-grid">
         <div>
@@ -352,6 +353,10 @@ function epicerie_membre3_contact_page_content( $form_id ) {
         </div>
     </div>
     <div class="epicerie-map">
+        <div>
+            <h2>Carte</h2>
+            <p>Le magasin se situe à Antananarivo 101. La carte aide à repérer facilement le quartier.</p>
+        </div>
         <iframe title="Carte Google Maps de l Épicerie du Quartier" src="https://www.google.com/maps?q=Antananarivo%20101%20Madagascar&amp;output=embed" loading="lazy"></iframe>
     </div>
 </section>
@@ -361,7 +366,7 @@ HTML;
 function epicerie_membre3_reviews_page_content() {
     return <<<HTML
 <section class="epicerie-section epicerie-reviews">
-    <h1>Avis et e-réputation</h1>
+    <h2>Gestion des avis</h2>
     <p>Cette page sert à montrer comment l épicerie peut gérer son image en ligne, répondre aux avis et rester présente sur les réseaux sociaux utiles aux clients du quartier.</p>
 
     <h2>Simulation Google Business Profile</h2>
@@ -462,6 +467,34 @@ function epicerie_membre3_update_menu( $items ) {
     }
 
     foreach ( $items as $label => $post_id ) {
+        if ( 'Accueil' === $label ) {
+            $has_home = false;
+
+            if ( $existing_items ) {
+                foreach ( $existing_items as $item ) {
+                    if ( 'custom' === $item->type && untrailingslashit( $item->url ) === untrailingslashit( home_url( '/' ) ) ) {
+                        $has_home = true;
+                        break;
+                    }
+                }
+            }
+
+            if ( ! $has_home ) {
+                wp_update_nav_menu_item(
+                    $menu_id,
+                    0,
+                    array(
+                        'menu-item-title'  => $label,
+                        'menu-item-url'    => home_url( '/' ),
+                        'menu-item-type'   => 'custom',
+                        'menu-item-status' => 'publish',
+                    )
+                );
+            }
+
+            continue;
+        }
+
         if ( ! $post_id || in_array( (int) $post_id, $existing_ids, true ) ) {
             continue;
         }
@@ -477,6 +510,31 @@ function epicerie_membre3_update_menu( $items ) {
                 'menu-item-status'    => 'publish',
             )
         );
+    }
+
+    $ordered_items = wp_get_nav_menu_items( $menu_id );
+    $position      = 1;
+
+    foreach ( $items as $label => $post_id ) {
+        if ( ! $ordered_items ) {
+            break;
+        }
+
+        foreach ( $ordered_items as $item ) {
+            $is_home = 'Accueil' === $label && 'custom' === $item->type && untrailingslashit( $item->url ) === untrailingslashit( home_url( '/' ) );
+            $is_page = 'Accueil' !== $label && (int) $item->object_id === (int) $post_id;
+
+            if ( $is_home || $is_page ) {
+                wp_update_post(
+                    array(
+                        'ID'         => $item->ID,
+                        'menu_order' => $position,
+                    )
+                );
+                $position++;
+                break;
+            }
+        }
     }
 
     $locations = get_theme_mod( 'nav_menu_locations', array() );
