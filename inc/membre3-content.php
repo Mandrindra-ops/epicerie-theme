@@ -6,14 +6,22 @@ function epicerie_membre3_seed_content() {
         return;
     }
 
-    $version = '2026-08-28-4';
+    $version = '2026-08-28-5';
 
     if ( get_option( 'epicerie_membre3_seed_version' ) === $version ) {
         return;
     }
 
+    update_option( 'blogname', 'Épicerie du Quartier' );
+    update_option( 'blogdescription', 'Les bonnes choses du quotidien' );
     update_option( 'default_comment_status', 'open' );
     update_option( 'comment_moderation', '1' );
+    update_option( 'date_format', 'j F Y' );
+    update_option( 'time_format', 'H:i' );
+    update_option( 'timezone_string', 'Indian/Antananarivo' );
+    update_option( 'permalink_structure', '/%postname%/' );
+
+    epicerie_membre3_disable_default_content();
 
     $category_news = epicerie_membre3_get_term_id( 'Actualités', 'category', 'actualites' );
     $category_tips = epicerie_membre3_get_term_id( 'Conseils', 'category', 'conseils' );
@@ -80,6 +88,19 @@ function epicerie_membre3_seed_content() {
 
     $contact_form_id = epicerie_membre3_contact_form_id();
 
+    $front_page = epicerie_membre3_upsert_post(
+        'page',
+        'accueil',
+        'Accueil',
+        '<p>Bienvenue sur le site de l Épicerie du Quartier.</p>',
+        'Accueil de l Épicerie du Quartier.',
+        array(
+            '_yoast_wpseo_title'    => 'Épicerie du Quartier - Produits frais à Antananarivo',
+            '_yoast_wpseo_metadesc' => 'Épicerie locale à Antananarivo avec produits frais, courses du quotidien, blog conseils et contact direct.',
+            '_yoast_wpseo_focuskw'  => 'épicerie locale',
+        )
+    );
+
     $blog_page = epicerie_membre3_upsert_post(
         'page',
         'blog',
@@ -119,6 +140,10 @@ function epicerie_membre3_seed_content() {
         )
     );
 
+    update_option( 'show_on_front', 'page' );
+    update_option( 'page_on_front', $front_page );
+    update_option( 'page_for_posts', $blog_page );
+
     epicerie_membre3_update_menu(
         array(
             'Accueil'             => 0,
@@ -153,6 +178,30 @@ function epicerie_membre3_get_term_id( $name, $taxonomy, $slug ) {
     }
 
     return (int) $created['term_id'];
+}
+
+function epicerie_membre3_disable_default_content() {
+    $sample_page = get_page_by_path( 'page-d-exemple', OBJECT, 'page' );
+
+    if ( $sample_page && 'trash' !== $sample_page->post_status ) {
+        wp_update_post(
+            array(
+                'ID'          => $sample_page->ID,
+                'post_status' => 'draft',
+            )
+        );
+    }
+
+    $hello_post = get_page_by_path( 'bonjour-tout-le-monde', OBJECT, 'post' );
+
+    if ( $hello_post && 'trash' !== $hello_post->post_status ) {
+        wp_update_post(
+            array(
+                'ID'          => $hello_post->ID,
+                'post_status' => 'draft',
+            )
+        );
+    }
 }
 
 function epicerie_membre3_upsert_post( $post_type, $slug, $title, $content, $excerpt, $meta = array(), $categories = array(), $tags = array(), $thumbnail_id = 0 ) {
