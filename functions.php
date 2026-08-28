@@ -27,4 +27,8 @@ function epicerie_default_menu() {
     echo '</ul>';
 }
 
+function epicerie_author_display_name() {
+    return 'Telina';
+}
+
 require_once get_stylesheet_directory() . '/inc/membre3-content.php';

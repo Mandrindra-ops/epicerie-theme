@@ -11,7 +11,7 @@ while ( have_posts() ) :
                 <h1><?php the_title(); ?></h1>
                 <div class="article-meta">
                     <span><?php echo esc_html( get_the_date() ); ?></span>
-                    <span><?php echo esc_html( get_the_author() ); ?></span>
+                    <span><?php echo esc_html( epicerie_author_display_name() ); ?></span>
                     <span><?php echo esc_html( wp_strip_all_tags( get_the_category_list( ', ' ) ) ); ?></span>
                 </div>
             </div>
