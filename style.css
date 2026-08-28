@@ -6,3 +6,143 @@ Description: Thème enfant de Hello Elementor pour l'épicerie de quartier.
 Template: hello-elementor
 Version: 1.0
 */
+
+:root {
+    --epicerie-green: #2f6b3f;
+    --epicerie-leaf: #d9ead3;
+    --epicerie-ink: #1f2a24;
+    --epicerie-muted: #5f6f65;
+    --epicerie-line: #d8dfd9;
+    --epicerie-paper: #fbfbf7;
+    --epicerie-accent: #c65032;
+}
+
+body {
+    background: var(--epicerie-paper);
+    color: var(--epicerie-ink);
+}
+
+a {
+    color: var(--epicerie-green);
+}
+
+.epicerie-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 42px 20px;
+}
+
+.epicerie-section h1,
+.epicerie-section h2,
+.epicerie-section h3,
+.epicerie-blog-intro h1 {
+    color: var(--epicerie-green);
+    line-height: 1.2;
+}
+
+.epicerie-section h1,
+.epicerie-blog-intro h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    margin-bottom: 18px;
+}
+
+.epicerie-section p,
+.epicerie-section li,
+.epicerie-blog-links p {
+    color: var(--epicerie-muted);
+    font-size: 1rem;
+    line-height: 1.75;
+}
+
+.epicerie-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.epicerie-blog-links {
+    max-width: 1100px;
+    margin: 0 auto 48px;
+    padding: 0 20px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.epicerie-blog-links article {
+    border: 1px solid var(--epicerie-line);
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 22px;
+}
+
+.epicerie-blog-links h2 {
+    color: var(--epicerie-green);
+    font-size: 1.25rem;
+    margin-top: 0;
+}
+
+.epicerie-blog-links a {
+    display: inline-block;
+    margin-top: 8px;
+    color: #ffffff;
+    background: var(--epicerie-green);
+    border-radius: 6px;
+    padding: 10px 14px;
+    text-decoration: none;
+}
+
+.epicerie-contact strong {
+    color: var(--epicerie-ink);
+}
+
+.epicerie-form {
+    border: 1px solid var(--epicerie-line);
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 24px;
+}
+
+.epicerie-form input,
+.epicerie-form textarea {
+    width: 100%;
+    border: 1px solid var(--epicerie-line);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-top: 6px;
+}
+
+.epicerie-form input[type="submit"] {
+    width: auto;
+    border: 0;
+    background: var(--epicerie-accent);
+    color: #ffffff;
+    cursor: pointer;
+    padding: 11px 18px;
+}
+
+.epicerie-map {
+    margin-top: 28px;
+}
+
+.epicerie-map iframe {
+    width: 100%;
+    min-height: 340px;
+    border: 0;
+    border-radius: 8px;
+}
+
+.epicerie-reviews ul {
+    border-left: 4px solid var(--epicerie-green);
+    background: #ffffff;
+    padding: 18px 18px 18px 34px;
+}
+
+@media (max-width: 760px) {
+    .epicerie-grid,
+    .epicerie-blog-links {
+        grid-template-columns: 1fr;
+    }
+
+    .epicerie-section {
+        padding: 30px 16px;
+    }
+}
