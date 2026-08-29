@@ -6,3 +6,118 @@ Description: Thème enfant de Hello Elementor pour l'épicerie de quartier.
 Template: hello-elementor
 Version: 1.0
 */
+
+.epicerie-products-section {
+    background: linear-gradient(135deg, #fffaf2 0%, #f7f1e6 100%);
+    padding: 80px 24px;
+    color: #1f2a1f;
+}
+
+.epicerie-products-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.epicerie-products-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.epicerie-products-kicker {
+    margin: 0 0 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #b46b2c;
+}
+
+.epicerie-products-header h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.2;
+    color: #1b3b2f;
+}
+
+.epicerie-products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.epicerie-product-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid rgba(91, 119, 72, 0.15);
+    border-radius: 20px;
+    padding: 24px 22px 20px;
+    box-shadow: 0 16px 34px rgba(57, 80, 66, 0.08);
+}
+
+.epicerie-product-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    background: #ecf5e6;
+    color: #325a30;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.epicerie-product-card h3 {
+    margin: 0 0 14px;
+    font-size: 1.6rem;
+    line-height: 1.3;
+    color: #1c2f20;
+}
+
+.epicerie-product-description {
+    margin: 0 0 20px;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #4d5b4d;
+    flex: 1;
+}
+
+.epicerie-product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: auto;
+}
+
+.epicerie-product-price {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1d5b42;
+}
+
+.epicerie-product-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #b96d2f;
+    color: #ffffff;
+    border-radius: 999px;
+    padding: 11px 18px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.epicerie-product-button:hover,
+.epicerie-product-button:focus {
+    background: #9e5d2a;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+    .epicerie-products-grid {
+        grid-template-columns: 1fr;
+    }
+}
