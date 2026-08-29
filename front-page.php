@@ -1,5 +1,18 @@
 <?php get_header(); ?>
 
+<?php
+if ( have_posts() ) :
+    while ( have_posts() ) :
+        the_post();
+
+        if ( 'builder' === get_post_meta( get_the_ID(), '_elementor_edit_mode', true ) ) :
+            ?>
+            <div class="elementor-front-page">
+                <?php the_content(); ?>
+            </div>
+            <?php
+        else :
+            ?>
 <section class="hero">
     <div class="hero__media">
         <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/images/hero-produits-frais.png' ); ?>" alt="Fruits et légumes frais présentés en cagettes">
@@ -87,5 +100,11 @@
         ?>
     </div>
 </section>
+
+            <?php
+        endif;
+    endwhile;
+endif;
+?>
 
 <?php get_footer(); ?>

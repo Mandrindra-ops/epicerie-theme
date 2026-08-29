@@ -6,7 +6,7 @@ function epicerie_membre3_seed_content() {
         return;
     }
 
-    $version = 'contenu-photo-sans-date-1';
+    $version = 'elementor-pages-1';
 
     if ( get_option( 'epicerie_membre3_seed_version' ) === $version ) {
         return;
@@ -37,6 +37,7 @@ function epicerie_membre3_seed_content() {
     $image_local   = epicerie_membre3_media_id( 'magasin_image.jpeg', 'Devanture de l’épicerie de quartier', 'Épicerie du Quartier' );
     $image_fruits  = epicerie_membre3_media_id( 'fruitetlegum.jpeg', 'Fruits et légumes frais rangés en cagettes', 'Fruits et légumes de saison' );
     $image_magasin = epicerie_membre3_media_id( 'imageAccueil.jpeg', 'Rayons simples avec des produits du quotidien', 'Rayons de l’épicerie' );
+    $image_hero    = epicerie_membre3_media_id( 'hero-produits-frais.png', 'Fruits et légumes frais présentés en cagettes', 'Produits frais de saison' );
 
     $post_1 = epicerie_membre3_upsert_post(
         'post',
@@ -140,7 +141,7 @@ function epicerie_membre3_seed_content() {
         )
     );
 
-    epicerie_membre3_upsert_post(
+    $legal_page = epicerie_membre3_upsert_post(
         'page',
         'mentions-legales',
         'Mentions légales',
@@ -153,7 +154,7 @@ function epicerie_membre3_seed_content() {
         )
     );
 
-    epicerie_membre3_upsert_post(
+    $privacy_page = epicerie_membre3_upsert_post(
         'page',
         'confidentialite',
         'Confidentialité',
@@ -168,7 +169,25 @@ function epicerie_membre3_seed_content() {
 
     update_option( 'show_on_front', 'page' );
     update_option( 'page_on_front', $front_page );
-    update_option( 'page_for_posts', $blog_page );
+    update_option( 'page_for_posts', 0 );
+
+    epicerie_membre3_apply_elementor_pages(
+        array(
+            'front'   => $front_page,
+            'blog'    => $blog_page,
+            'contact' => $contact_page,
+            'reviews' => $reviews_page,
+            'legal'   => $legal_page,
+            'privacy' => $privacy_page,
+        ),
+        array(
+            'hero'    => $image_hero,
+            'local'   => $image_local,
+            'fruits'  => $image_fruits,
+            'magasin' => $image_magasin,
+        ),
+        $contact_form_id
+    );
 
     epicerie_membre3_update_menu(
         array(
@@ -378,6 +397,344 @@ FORM;
     }
 
     return $form_id;
+}
+
+function epicerie_membre3_apply_elementor_pages( $pages, $images, $contact_form_id ) {
+    epicerie_membre3_set_elementor_page(
+        $pages['front'],
+        epicerie_membre3_elementor_home( $images )
+    );
+
+    epicerie_membre3_set_elementor_page(
+        $pages['blog'],
+        epicerie_membre3_elementor_blog()
+    );
+
+    epicerie_membre3_set_elementor_page(
+        $pages['contact'],
+        epicerie_membre3_elementor_contact( $contact_form_id )
+    );
+
+    epicerie_membre3_set_elementor_page(
+        $pages['reviews'],
+        epicerie_membre3_elementor_reviews()
+    );
+
+    epicerie_membre3_set_elementor_page(
+        $pages['legal'],
+        epicerie_membre3_elementor_simple_page(
+            'Mentions légales',
+            'Cette page rassemble les informations utiles sur le site de l’Épicerie du Quartier.',
+            epicerie_membre3_legal_page_content()
+        )
+    );
+
+    epicerie_membre3_set_elementor_page(
+        $pages['privacy'],
+        epicerie_membre3_elementor_simple_page(
+            'Confidentialité',
+            'Les informations envoyées via le formulaire servent uniquement à répondre aux visiteurs.',
+            epicerie_membre3_privacy_page_content()
+        )
+    );
+}
+
+function epicerie_membre3_set_elementor_page( $post_id, $data ) {
+    if ( ! $post_id || empty( $data ) ) {
+        return;
+    }
+
+    update_post_meta( $post_id, '_elementor_edit_mode', 'builder' );
+    update_post_meta( $post_id, '_elementor_template_type', 'wp-page' );
+    update_post_meta( $post_id, '_elementor_version', defined( 'ELEMENTOR_VERSION' ) ? ELEMENTOR_VERSION : '3.0.0' );
+    update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( $data ) ) );
+    update_post_meta( $post_id, '_elementor_page_settings', array( 'hide_title' => 'yes' ) );
+    delete_post_meta( $post_id, '_elementor_css' );
+}
+
+function epicerie_membre3_elementor_section( $seed, $widgets, $settings = array() ) {
+    return array(
+        'id'       => epicerie_membre3_elementor_id( $seed . '-section' ),
+        'elType'   => 'section',
+        'settings' => array_merge(
+            array(
+                'layout'        => 'full_width',
+                'content_width' => array(
+                    'unit' => 'px',
+                    'size' => 1540,
+                ),
+                'gap'           => 'default',
+            ),
+            $settings
+        ),
+        'elements' => array(
+            array(
+                'id'       => epicerie_membre3_elementor_id( $seed . '-column' ),
+                'elType'   => 'column',
+                'settings' => array( '_column_size' => 100 ),
+                'elements' => $widgets,
+            ),
+        ),
+        'isInner'  => false,
+    );
+}
+
+function epicerie_membre3_elementor_columns_section( $seed, $left_widgets, $right_widgets, $settings = array() ) {
+    return array(
+        'id'       => epicerie_membre3_elementor_id( $seed . '-section' ),
+        'elType'   => 'section',
+        'settings' => array_merge(
+            array(
+                'layout'        => 'full_width',
+                'content_width' => array(
+                    'unit' => 'px',
+                    'size' => 1540,
+                ),
+                'gap'           => 'default',
+            ),
+            $settings
+        ),
+        'elements' => array(
+            array(
+                'id'       => epicerie_membre3_elementor_id( $seed . '-left' ),
+                'elType'   => 'column',
+                'settings' => array( '_column_size' => 50 ),
+                'elements' => $left_widgets,
+            ),
+            array(
+                'id'       => epicerie_membre3_elementor_id( $seed . '-right' ),
+                'elType'   => 'column',
+                'settings' => array( '_column_size' => 50 ),
+                'elements' => $right_widgets,
+            ),
+        ),
+        'isInner'  => false,
+    );
+}
+
+function epicerie_membre3_elementor_html_widget( $seed, $html ) {
+    return array(
+        'id'         => epicerie_membre3_elementor_id( $seed . '-html' ),
+        'elType'     => 'widget',
+        'widgetType' => 'html',
+        'settings'   => array( 'html' => $html ),
+        'elements'   => array(),
+    );
+}
+
+function epicerie_membre3_elementor_shortcode_widget( $seed, $shortcode ) {
+    return array(
+        'id'         => epicerie_membre3_elementor_id( $seed . '-shortcode' ),
+        'elType'     => 'widget',
+        'widgetType' => 'shortcode',
+        'settings'   => array( 'shortcode' => $shortcode ),
+        'elements'   => array(),
+    );
+}
+
+function epicerie_membre3_elementor_id( $seed ) {
+    return substr( md5( $seed ), 0, 7 );
+}
+
+function epicerie_membre3_elementor_home( $images ) {
+    $hero_url = wp_get_attachment_image_url( $images['hero'], 'full' );
+    $hero_url = $hero_url ? $hero_url : get_stylesheet_directory_uri() . '/images/hero-produits-frais.png';
+    $cards    = epicerie_membre3_recent_post_cards_html();
+
+    $hero = <<<HTML
+<section class="hero">
+    <div class="hero__media">
+        <img src="{$hero_url}" alt="Fruits et légumes frais présentés en cagettes">
+    </div>
+    <div class="hero__content">
+        <span class="leaf leaf-one" aria-hidden="true"></span>
+        <span class="leaf leaf-two" aria-hidden="true"></span>
+        <p class="eyebrow">Épicerie locale à Antananarivo</p>
+        <h1>Des produits simples, frais et proches du quartier.</h1>
+        <p>Chaque jour, nous préparons une sélection de produits utiles, de fruits et légumes de saison et de petites trouvailles locales pour faciliter les courses du quartier.</p>
+        <div class="hero__actions">
+            <a class="button button-primary" href="/epicerie/contact/">Nous contacter</a>
+            <a class="button button-secondary" href="/epicerie/blog/">Lire le blog</a>
+        </div>
+    </div>
+</section>
+HTML;
+
+    $features = <<<HTML
+<section class="section">
+    <div class="section__heading">
+        <p class="eyebrow">Pratique</p>
+        <h2>Tout trouver rapidement</h2>
+    </div>
+    <div class="feature-grid">
+        <a class="feature-card" href="/epicerie/blog/"><span class="feature-card__number">01</span><h3>Conseils d’achat</h3><p>Des repères clairs pour acheter local, choisir de bons produits et éviter le gaspillage.</p><span class="feature-card__arrow">-&gt;</span></a>
+        <a class="feature-card" href="/epicerie/contact/"><span class="feature-card__number">02</span><h3>Contact direct</h3><p>Une question, une commande ou un produit à réserver : toutes les informations sont au même endroit.</p><span class="feature-card__arrow">-&gt;</span></a>
+        <a class="feature-card" href="/epicerie/avis-et-e-reputation/"><span class="feature-card__number">03</span><h3>Avis clients</h3><p>Les retours clients aident l’épicerie à garder un service sérieux, simple et proche des habitants.</p><span class="feature-card__arrow">-&gt;</span></a>
+    </div>
+</section>
+HTML;
+
+    $blog = <<<HTML
+<section class="section section-muted">
+    <div class="section__heading section__heading-row">
+        <div><p class="eyebrow">Blog</p><h2>Articles récents</h2></div>
+        <a class="button button-small" href="/epicerie/blog/">Voir tous les articles -&gt;</a>
+    </div>
+    <div class="post-grid">{$cards}</div>
+</section>
+HTML;
+
+    return array(
+        epicerie_membre3_elementor_section( 'home-hero', array( epicerie_membre3_elementor_html_widget( 'home-hero', $hero ) ) ),
+        epicerie_membre3_elementor_section( 'home-features', array( epicerie_membre3_elementor_html_widget( 'home-features', $features ) ) ),
+        epicerie_membre3_elementor_section( 'home-blog', array( epicerie_membre3_elementor_html_widget( 'home-blog', $blog ) ) ),
+    );
+}
+
+function epicerie_membre3_elementor_blog() {
+    $cards = epicerie_membre3_recent_post_cards_html();
+    $html  = <<<HTML
+<section class="page-shell blog-archive">
+    <header class="page-hero">
+        <div>
+            <p class="eyebrow">Blog</p>
+            <h1>Articles récents</h1>
+            <p>Conseils pratiques, achat local et coulisses de l’Épicerie du Quartier pour mieux choisir au quotidien.</p>
+        </div>
+        <form role="search" method="get" class="search-panel search-panel--compact" action="/epicerie/">
+            <label for="blog-search-elementor">Rechercher un article</label>
+            <div class="search-panel__row">
+                <input id="blog-search-elementor" type="search" name="s" placeholder="Ex : fruits, local, contact">
+                <button type="submit">Rechercher</button>
+            </div>
+        </form>
+    </header>
+    <div class="post-grid blog-archive__grid">{$cards}</div>
+</section>
+HTML;
+
+    return array(
+        epicerie_membre3_elementor_section( 'blog-page', array( epicerie_membre3_elementor_html_widget( 'blog-page', $html ) ) ),
+    );
+}
+
+function epicerie_membre3_elementor_contact( $contact_form_id ) {
+    $shortcode = $contact_form_id ? '[contact-form-7 id="' . (int) $contact_form_id . '" title="Formulaire de contact"]' : '';
+    $hero      = <<<HTML
+<section class="page-shell page-shell--contact">
+    <header class="page-hero">
+        <div><p class="eyebrow">Épicerie du Quartier</p><h1>Contact</h1><p>Adresse, téléphone, WhatsApp, horaires et formulaire pour joindre l’Épicerie du Quartier.</p></div>
+        <aside class="page-hero__aside"><span>Ouvert lundi - samedi</span><strong>7h30 - 19h00</strong><a href="https://wa.me/261341234567">WhatsApp</a></aside>
+    </header>
+</section>
+HTML;
+
+    $intro = <<<HTML
+<section class="epicerie-section epicerie-contact">
+    <h2>Nous joindre facilement</h2>
+    <p>Pour connaître les arrivages, réserver un produit ou poser une question, vous pouvez passer au magasin, appeler ou envoyer un message.</p>
+</section>
+HTML;
+
+    $info = <<<HTML
+<div class="info-card">
+    <h2>Coordonnées</h2>
+    <ul class="contact-list">
+        <li><strong>Adresse</strong><span>Lot II M 45, Antananarivo 101, Madagascar</span></li>
+        <li><strong>Téléphone</strong><span>+261 34 12 345 67</span></li>
+        <li><strong>Horaires</strong><span>Lundi au samedi, 7h30 à 19h00</span></li>
+        <li><strong>E-mail</strong><span>contact@epicerieduquartier.mg</span></li>
+    </ul>
+    <div class="social-row"><a href="https://www.facebook.com/epicerieduquartier">Facebook</a><a href="https://www.instagram.com/epicerieduquartier">Instagram</a><a href="https://wa.me/261341234567">WhatsApp</a></div>
+</div>
+HTML;
+
+    $form_title = '<div class="epicerie-form epicerie-form--elementor"><h2>Formulaire</h2><p>Indiquez votre demande avec le plus de détails possible.</p></div>';
+
+    $map = <<<HTML
+<section class="epicerie-section">
+    <div class="epicerie-map"><div><h2>Carte</h2><p>Le magasin se situe à Antananarivo 101. La carte permet de repérer le secteur avant de venir sur place.</p></div><iframe title="Carte Google Maps de l’Épicerie du Quartier" src="https://www.google.com/maps?q=Antananarivo%20101%20Madagascar&amp;output=embed" loading="lazy"></iframe></div>
+</section>
+HTML;
+
+    return array(
+        epicerie_membre3_elementor_section( 'contact-hero', array( epicerie_membre3_elementor_html_widget( 'contact-hero', $hero ) ) ),
+        epicerie_membre3_elementor_section( 'contact-intro', array( epicerie_membre3_elementor_html_widget( 'contact-intro', $intro ) ) ),
+        epicerie_membre3_elementor_columns_section(
+            'contact-details',
+            array( epicerie_membre3_elementor_html_widget( 'contact-info', $info ) ),
+            array(
+                epicerie_membre3_elementor_html_widget( 'contact-form-title', $form_title ),
+                epicerie_membre3_elementor_shortcode_widget( 'contact-form', $shortcode ),
+            ),
+            array( '_css_classes' => 'elementor-contact-grid' )
+        ),
+        epicerie_membre3_elementor_section( 'contact-map', array( epicerie_membre3_elementor_html_widget( 'contact-map', $map ) ) ),
+    );
+}
+
+function epicerie_membre3_elementor_reviews() {
+    $html = <<<HTML
+<section class="page-shell page-shell--avis-et-e-reputation">
+    <header class="page-hero">
+        <div><p class="eyebrow">Épicerie du Quartier</p><h1>Avis et e-réputation</h1><p>Avis clients, présence sur les réseaux sociaux et méthode simple pour suivre l’e-réputation du magasin.</p></div>
+        <aside class="page-hero__aside"><span>Objectif</span><strong>Répondre vite</strong><a href="/epicerie/contact/">Contact</a></aside>
+    </header>
+    <div class="content-wrap">
+HTML;
+    $html .= epicerie_membre3_reviews_page_content();
+    $html .= '</div></section>';
+
+    return array(
+        epicerie_membre3_elementor_section( 'reviews-page', array( epicerie_membre3_elementor_html_widget( 'reviews-page', $html ) ) ),
+    );
+}
+
+function epicerie_membre3_elementor_simple_page( $title, $intro, $content ) {
+    $html = <<<HTML
+<section class="page-shell">
+    <header class="page-hero">
+        <div><p class="eyebrow">Épicerie du Quartier</p><h1>{$title}</h1><p>{$intro}</p></div>
+        <aside class="page-hero__aside"><span>Information</span><strong>Site vitrine</strong><a href="/epicerie/contact/">Contact</a></aside>
+    </header>
+    <div class="content-wrap">{$content}</div>
+</section>
+HTML;
+
+    return array(
+        epicerie_membre3_elementor_section( sanitize_title( $title ), array( epicerie_membre3_elementor_html_widget( sanitize_title( $title ), $html ) ) ),
+    );
+}
+
+function epicerie_membre3_recent_post_cards_html() {
+    $query = new WP_Query(
+        array(
+            'post_type'      => 'post',
+            'posts_per_page' => 3,
+            'post__not_in'   => array( 1 ),
+        )
+    );
+
+    $html = '';
+
+    if ( $query->have_posts() ) {
+        while ( $query->have_posts() ) {
+            $query->the_post();
+            $image = get_the_post_thumbnail_url( get_the_ID(), 'medium_large' );
+            $image = $image ? $image : get_stylesheet_directory_uri() . '/images/fruitetlegum.jpeg';
+            $html .= '<article class="post-card">';
+            $html .= '<a class="post-card__image" href="' . esc_url( get_permalink() ) . '"><img src="' . esc_url( $image ) . '" alt=""></a>';
+            $html .= '<div class="post-card__body">';
+            $html .= '<div class="post-card__meta"><span>' . esc_html( epicerie_author_display_name() ) . '</span><span>' . esc_html( wp_strip_all_tags( get_the_category_list( ', ' ) ) ) . '</span></div>';
+            $html .= '<h3><a href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a></h3>';
+            $html .= '<p>' . esc_html( wp_trim_words( get_the_excerpt(), 24 ) ) . '</p>';
+            $html .= '<a class="post-card__link" href="' . esc_url( get_permalink() ) . '">Lire l’article</a>';
+            $html .= '</div></article>';
+        }
+        wp_reset_postdata();
+    }
+
+    return $html;
 }
 
 function epicerie_membre3_blog_page_content() {

@@ -4,6 +4,15 @@
 while ( have_posts() ) :
     the_post();
     $page_slug = get_post_field( 'post_name', get_the_ID() );
+
+    if ( 'builder' === get_post_meta( get_the_ID(), '_elementor_edit_mode', true ) ) :
+        ?>
+        <article class="elementor-page-shell elementor-page-shell--<?php echo esc_attr( $page_slug ); ?>">
+            <?php the_content(); ?>
+        </article>
+        <?php
+        continue;
+    endif;
     ?>
     <article class="page-shell page-shell--<?php echo esc_attr( $page_slug ); ?>">
         <header class="page-hero">
