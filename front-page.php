@@ -8,7 +8,7 @@ if ( have_posts() ) :
         if ( 'builder' === get_post_meta( get_the_ID(), '_elementor_edit_mode', true ) ) :
             ?>
             <div class="elementor-front-page">
-                <?php the_content(); ?>
+                <?php epicerie_render_builder_content( get_the_ID() ); ?>
             </div>
             <?php
         else :

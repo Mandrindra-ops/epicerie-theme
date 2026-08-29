@@ -8,7 +8,7 @@ while ( have_posts() ) :
     if ( 'builder' === get_post_meta( get_the_ID(), '_elementor_edit_mode', true ) ) :
         ?>
         <article class="elementor-page-shell elementor-page-shell--<?php echo esc_attr( $page_slug ); ?>">
-            <?php the_content(); ?>
+            <?php epicerie_render_builder_content( get_the_ID() ); ?>
         </article>
         <?php
         continue;

@@ -6,7 +6,7 @@ function epicerie_membre3_seed_content() {
         return;
     }
 
-    $version = 'membres-1-2-elementor-2';
+    $version = 'design-pro-elementor-1';
 
     if ( get_option( 'epicerie_membre3_seed_version' ) === $version ) {
         return;
@@ -37,7 +37,12 @@ function epicerie_membre3_seed_content() {
     $image_local   = epicerie_membre3_media_id( 'magasin_image.jpeg', 'Devanture de l’épicerie de quartier', 'Épicerie du Quartier' );
     $image_fruits  = epicerie_membre3_media_id( 'fruitetlegum.jpeg', 'Fruits et légumes frais rangés en cagettes', 'Fruits et légumes de saison' );
     $image_magasin = epicerie_membre3_media_id( 'imageAccueil.jpeg', 'Rayons simples avec des produits du quotidien', 'Rayons de l’épicerie' );
-    $image_hero    = epicerie_membre3_media_id( 'hero-produits-frais.png', 'Fruits et légumes frais présentés en cagettes', 'Produits frais de saison' );
+    $image_hero    = epicerie_membre3_media_id( 'hero-market-wide.png', 'Étal de fruits et légumes frais dans une épicerie', 'Produits frais en rayon' );
+    $image_rice    = epicerie_membre3_media_id( 'product-rice.png', 'Bol et sac de riz blanc', 'Riz local' );
+    $image_tomato  = epicerie_membre3_media_id( 'product-tomatoes.png', 'Tomates fraîches dans un panier', 'Tomates fraîches' );
+    $image_banana  = epicerie_membre3_media_id( 'product-bananas.png', 'Bananes mûres sur une table', 'Bananes' );
+    $image_oil     = epicerie_membre3_media_id( 'product-oil.png', 'Bouteilles d’huile de cuisson', 'Huile de tournesol' );
+    $image_eggs    = epicerie_membre3_media_id( 'product-eggs.png', 'Œufs frais en boîte', 'Œufs frais' );
 
     if ( $image_hero ) {
         set_theme_mod( 'custom_logo', $image_hero );
@@ -218,6 +223,11 @@ function epicerie_membre3_seed_content() {
             'local'   => $image_local,
             'fruits'  => $image_fruits,
             'magasin' => $image_magasin,
+            'rice'    => $image_rice,
+            'tomato'  => $image_tomato,
+            'banana'  => $image_banana,
+            'oil'     => $image_oil,
+            'eggs'    => $image_eggs,
         ),
         $contact_form_id
     );
@@ -442,7 +452,7 @@ function epicerie_membre3_apply_elementor_pages( $pages, $images, $contact_form_
 
     epicerie_membre3_set_elementor_page(
         $pages['about'],
-        epicerie_membre3_elementor_about()
+        epicerie_membre3_elementor_about( $images )
     );
 
     epicerie_membre3_set_elementor_page(
@@ -457,12 +467,12 @@ function epicerie_membre3_apply_elementor_pages( $pages, $images, $contact_form_
 
     epicerie_membre3_set_elementor_page(
         $pages['contact'],
-        epicerie_membre3_elementor_contact( $contact_form_id )
+        epicerie_membre3_elementor_contact( $contact_form_id, $images )
     );
 
     epicerie_membre3_set_elementor_page(
         $pages['reviews'],
-        epicerie_membre3_elementor_reviews()
+        epicerie_membre3_elementor_reviews( $images )
     );
 
     epicerie_membre3_set_elementor_page(
@@ -583,52 +593,65 @@ function epicerie_membre3_elementor_id( $seed ) {
 
 function epicerie_membre3_elementor_home( $images ) {
     $hero_url = wp_get_attachment_image_url( $images['hero'], 'full' );
-    $hero_url = $hero_url ? $hero_url : get_stylesheet_directory_uri() . '/images/hero-produits-frais.png';
+    $hero_url = $hero_url ? $hero_url : get_stylesheet_directory_uri() . '/images/hero-market-wide.png';
+    $rice_url = wp_get_attachment_image_url( $images['rice'], 'medium_large' );
+    $tomato_url = wp_get_attachment_image_url( $images['tomato'], 'medium_large' );
+    $banana_url = wp_get_attachment_image_url( $images['banana'], 'medium_large' );
+    $oil_url = wp_get_attachment_image_url( $images['oil'], 'medium_large' );
+    $eggs_url = wp_get_attachment_image_url( $images['eggs'], 'medium_large' );
+    $rice_url = $rice_url ? $rice_url : get_stylesheet_directory_uri() . '/images/product-rice.png';
+    $tomato_url = $tomato_url ? $tomato_url : get_stylesheet_directory_uri() . '/images/product-tomatoes.png';
+    $banana_url = $banana_url ? $banana_url : get_stylesheet_directory_uri() . '/images/product-bananas.png';
+    $oil_url = $oil_url ? $oil_url : get_stylesheet_directory_uri() . '/images/product-oil.png';
+    $eggs_url = $eggs_url ? $eggs_url : get_stylesheet_directory_uri() . '/images/product-eggs.png';
     $cards    = epicerie_membre3_recent_post_cards_html();
 
     $hero = <<<HTML
-<section class="hero">
-    <div class="hero__media">
-        <img src="{$hero_url}" alt="Fruits et légumes frais présentés en cagettes">
-    </div>
-    <div class="hero__content">
-        <span class="leaf leaf-one" aria-hidden="true"></span>
-        <span class="leaf leaf-two" aria-hidden="true"></span>
+<section class="home-cover">
+    <img class="home-cover__image" src="{$hero_url}" alt="Rayon de produits frais dans une épicerie locale">
+    <div class="home-cover__panel">
         <p class="eyebrow">Épicerie locale à Antananarivo</p>
         <h1>Des produits simples, frais et proches du quartier.</h1>
-        <p>Chaque jour, nous préparons une sélection de produits utiles, de fruits et légumes de saison et de petites trouvailles locales pour faciliter les courses du quartier.</p>
-        <div class="hero__actions">
+        <p>Chaque jour, nous sélectionnons pour vous des produits utiles, des fruits et légumes de saison et des petites trouvailles locales pour faciliter vos courses.</p>
+        <div class="home-cover__actions">
             <a class="button button-primary" href="/epicerie/contact/">Nous contacter</a>
-            <a class="button button-secondary" href="/epicerie/blog/">Lire le blog</a>
+            <a class="button button-secondary" href="/epicerie/offre-produits/">Voir nos produits</a>
         </div>
     </div>
 </section>
 HTML;
 
     $features = <<<HTML
-<section class="section">
+<section class="trust-strip" aria-label="Avantages de l'épicerie">
+    <div class="trust-item"><span>✓</span><div><h2>Produits frais et de qualité</h2><p>Sélection rigoureuse chaque jour.</p></div></div>
+    <div class="trust-item"><span>•</span><div><h2>Local et à proximité</h2><p>Magasin situé au cœur du quartier.</p></div></div>
+    <div class="trust-item"><span>✓</span><div><h2>Prix justes</h2><p>Des prix accessibles pour tous.</p></div></div>
+    <div class="trust-item"><span>•</span><div><h2>À votre écoute</h2><p>Service client réactif et attentionné.</p></div></div>
+</section>
+HTML;
+
+    $presentation = <<<HTML
+<section class="section home-intro">
     <div class="section__heading">
-        <p class="eyebrow">Pratique</p>
-        <h2>Tout trouver rapidement</h2>
+        <p class="eyebrow">Présentation</p>
+        <h2>Une épicerie simple, claire et utile</h2>
     </div>
-    <div class="feature-grid">
-        <a class="feature-card" href="/epicerie/blog/"><span class="feature-card__number">01</span><h3>Conseils d’achat</h3><p>Des repères clairs pour acheter local, choisir de bons produits et éviter le gaspillage.</p><span class="feature-card__arrow">-&gt;</span></a>
-        <a class="feature-card" href="/epicerie/contact/"><span class="feature-card__number">02</span><h3>Contact direct</h3><p>Une question, une commande ou un produit à réserver : toutes les informations sont au même endroit.</p><span class="feature-card__arrow">-&gt;</span></a>
-        <a class="feature-card" href="/epicerie/avis-et-e-reputation/"><span class="feature-card__number">03</span><h3>Avis clients</h3><p>Les retours clients aident l’épicerie à garder un service sérieux, simple et proche des habitants.</p><span class="feature-card__arrow">-&gt;</span></a>
-    </div>
+    <p>Notre objectif est de rendre les achats du quotidien plus agréables : des rayons faciles à lire, des produits bien choisis, des prix visibles et un contact direct pour réserver ou poser une question.</p>
 </section>
 HTML;
 
     $products = <<<HTML
 <section class="section section-products-home">
     <div class="section__heading section__heading-row">
-        <div><p class="eyebrow">Produits phares</p><h2>Des essentiels bien choisis</h2></div>
-        <a class="button button-small" href="/epicerie/offre-produits/">Voir les produits -&gt;</a>
+        <div><p class="eyebrow">Produits phares</p><h2>Nos produits phares</h2></div>
+        <a class="button button-small" href="/epicerie/offre-produits/">Voir tous les produits -&gt;</a>
     </div>
-    <div class="product-grid product-grid--home">
-        <article class="product-card product-card--compact"><span class="product-card__badge">Fruits</span><h3>Fruits de saison</h3><p>Mangues, bananes, oranges et fruits disponibles selon l’arrivage.</p><strong>À partir de Ar 3 500 / kg</strong></article>
-        <article class="product-card product-card--compact"><span class="product-card__badge">Légumes</span><h3>Légumes frais</h3><p>Tomates, carottes, brèdes, courgettes et légumes simples à cuisiner.</p><strong>À partir de Ar 2 800 / botte</strong></article>
-        <article class="product-card product-card--compact"><span class="product-card__badge">Quotidien</span><h3>Courses utiles</h3><p>Riz, huile, sucre, boissons et produits pratiques pour compléter les repas.</p><strong>Prix visibles en magasin</strong></article>
+    <div class="product-grid product-grid--featured">
+        <article class="product-card"><img src="{$rice_url}" alt="Riz local"><div class="product-card__body"><h3>Riz local</h3><strong>5 000 Ar / kg</strong></div></article>
+        <article class="product-card"><img src="{$tomato_url}" alt="Tomates fraîches"><div class="product-card__body"><h3>Tomate fraîche</h3><strong>4 000 Ar / kg</strong></div></article>
+        <article class="product-card"><img src="{$banana_url}" alt="Bananes"><div class="product-card__body"><h3>Banane</h3><strong>3 500 Ar / kg</strong></div></article>
+        <article class="product-card"><img src="{$oil_url}" alt="Huile de tournesol"><div class="product-card__body"><h3>Huile de tournesol 1L</h3><strong>7 000 Ar</strong></div></article>
+        <article class="product-card"><img src="{$eggs_url}" alt="Œufs frais"><div class="product-card__body"><h3>Œufs frais (30)</h3><strong>12 000 Ar</strong></div></article>
     </div>
 </section>
 HTML;
@@ -646,18 +669,28 @@ HTML;
     return array(
         epicerie_membre3_elementor_section( 'home-hero', array( epicerie_membre3_elementor_html_widget( 'home-hero', $hero ) ) ),
         epicerie_membre3_elementor_section( 'home-features', array( epicerie_membre3_elementor_html_widget( 'home-features', $features ) ) ),
+        epicerie_membre3_elementor_section( 'home-intro', array( epicerie_membre3_elementor_html_widget( 'home-intro', $presentation ) ) ),
         epicerie_membre3_elementor_section( 'home-products', array( epicerie_membre3_elementor_html_widget( 'home-products', $products ) ) ),
         epicerie_membre3_elementor_section( 'home-blog', array( epicerie_membre3_elementor_html_widget( 'home-blog', $blog ) ) ),
     );
 }
 
-function epicerie_membre3_elementor_about() {
+function epicerie_membre3_elementor_about( $images ) {
+    $magasin_url = wp_get_attachment_image_url( $images['magasin'], 'large' );
+    $local_url   = wp_get_attachment_image_url( $images['local'], 'large' );
+    $magasin_url = $magasin_url ? $magasin_url : get_stylesheet_directory_uri() . '/images/imageAccueil.jpeg';
+    $local_url   = $local_url ? $local_url : get_stylesheet_directory_uri() . '/images/magasin_image.jpeg';
+
     $html = <<<HTML
 <section class="page-shell page-shell--a-propos">
     <header class="page-hero">
         <div><p class="eyebrow">Notre histoire</p><h1>Une épicerie proche, simple et attentive.</h1><p>L’Épicerie du Quartier rassemble les produits utiles du quotidien avec un accueil direct, des rayons lisibles et des conseils adaptés aux besoins des habitants.</p></div>
         <aside class="page-hero__aside"><span>Engagement</span><strong>Fraîcheur et confiance</strong><a href="/epicerie/contact/">Nous contacter</a></aside>
     </header>
+    <div class="about-photo-row">
+        <img src="{$magasin_url}" alt="Rayons organisés de l'épicerie">
+        <img src="{$local_url}" alt="Devanture et ambiance de l'épicerie">
+    </div>
     <div class="content-wrap">
 HTML;
     $html .= epicerie_membre3_about_page_content();
@@ -669,12 +702,18 @@ HTML;
 }
 
 function epicerie_membre3_elementor_products( $images ) {
-    $fruits_url  = wp_get_attachment_image_url( $images['fruits'], 'medium_large' );
-    $magasin_url = wp_get_attachment_image_url( $images['magasin'], 'medium_large' );
-    $local_url   = wp_get_attachment_image_url( $images['local'], 'medium_large' );
-    $fruits_url  = $fruits_url ? $fruits_url : get_stylesheet_directory_uri() . '/images/fruitetlegum.jpeg';
-    $magasin_url = $magasin_url ? $magasin_url : get_stylesheet_directory_uri() . '/images/imageAccueil.jpeg';
-    $local_url   = $local_url ? $local_url : get_stylesheet_directory_uri() . '/images/magasin_image.jpeg';
+    $rice_url   = wp_get_attachment_image_url( $images['rice'], 'medium_large' );
+    $tomato_url = wp_get_attachment_image_url( $images['tomato'], 'medium_large' );
+    $banana_url = wp_get_attachment_image_url( $images['banana'], 'medium_large' );
+    $oil_url    = wp_get_attachment_image_url( $images['oil'], 'medium_large' );
+    $eggs_url   = wp_get_attachment_image_url( $images['eggs'], 'medium_large' );
+    $hero_url   = wp_get_attachment_image_url( $images['hero'], 'large' );
+    $rice_url   = $rice_url ? $rice_url : get_stylesheet_directory_uri() . '/images/product-rice.png';
+    $tomato_url = $tomato_url ? $tomato_url : get_stylesheet_directory_uri() . '/images/product-tomatoes.png';
+    $banana_url = $banana_url ? $banana_url : get_stylesheet_directory_uri() . '/images/product-bananas.png';
+    $oil_url    = $oil_url ? $oil_url : get_stylesheet_directory_uri() . '/images/product-oil.png';
+    $eggs_url   = $eggs_url ? $eggs_url : get_stylesheet_directory_uri() . '/images/product-eggs.png';
+    $hero_url   = $hero_url ? $hero_url : get_stylesheet_directory_uri() . '/images/hero-market-wide.png';
 
     $html = <<<HTML
 <section class="page-shell page-shell--offre-produits">
@@ -682,19 +721,23 @@ function epicerie_membre3_elementor_products( $images ) {
         <div><p class="eyebrow">Offre / Produits</p><h1>Des rayons clairs pour les courses du quotidien.</h1><p>Les fiches ci-dessous présentent les familles de produits, les prix indicatifs et les usages les plus pratiques pour choisir rapidement.</p></div>
         <aside class="page-hero__aside"><span>Rayons</span><strong>Frais, sec et pratique</strong><a href="/epicerie/contact/">Demander un produit</a></aside>
     </header>
+    <div class="products-banner">
+        <img src="{$hero_url}" alt="Rayon frais de l'épicerie">
+        <div><h2>Des produits utiles, visibles et faciles à comparer</h2><p>Les catégories sont séparées pour aider le client à trouver vite ce dont il a besoin.</p></div>
+    </div>
     <div class="content-wrap">
         <section class="epicerie-section">
             <div class="product-grid">
-                <article class="product-card"><img src="{$fruits_url}" alt="Fruits frais en rayon"><span class="product-card__badge">Fruits</span><h2>Fruits de saison</h2><p>Mangues, bananes, oranges et fruits sélectionnés selon l’arrivage.</p><strong>Ar 3 500 / kg</strong></article>
-                <article class="product-card"><img src="{$fruits_url}" alt="Légumes frais en cagettes"><span class="product-card__badge">Légumes</span><h2>Légumes frais</h2><p>Tomates, carottes, brèdes et courgettes pour les repas simples.</p><strong>Ar 2 800 / botte</strong></article>
-                <article class="product-card"><img src="{$magasin_url}" alt="Rayon de produits secs"><span class="product-card__badge">Produits secs</span><h2>Riz local</h2><p>Un indispensable du quotidien, disponible en petites et grandes quantités.</p><strong>Ar 4 200 / kg</strong></article>
-                <article class="product-card"><img src="{$local_url}" alt="Boissons et produits locaux"><span class="product-card__badge">Boissons</span><h2>Jus naturel</h2><p>Une option fraîche pour accompagner les courses ou une pause rapide.</p><strong>Ar 2 500 / bouteille</strong></article>
-                <article class="product-card"><img src="{$magasin_url}" alt="Produits frais du magasin"><span class="product-card__badge">Frais</span><h2>Œufs frais</h2><p>Des œufs pratiques pour les repas rapides, pâtisseries et petits déjeuners.</p><strong>Ar 900 / pièce</strong></article>
-                <article class="product-card"><img src="{$local_url}" alt="Articles utiles du quotidien"><span class="product-card__badge">Quotidien</span><h2>Savon & entretien</h2><p>Des articles simples pour compléter les achats de la maison.</p><strong>Ar 1 500 / unité</strong></article>
+                <article class="product-card"><img src="{$rice_url}" alt="Riz local"><span class="product-card__badge">Produits secs</span><h2>Riz local</h2><p>Un indispensable du quotidien, disponible en petites et grandes quantités.</p><strong>5 000 Ar / kg</strong></article>
+                <article class="product-card"><img src="{$tomato_url}" alt="Tomates fraîches"><span class="product-card__badge">Légumes</span><h2>Tomate fraîche</h2><p>Des tomates utiles pour les sauces, salades et repas rapides.</p><strong>4 000 Ar / kg</strong></article>
+                <article class="product-card"><img src="{$banana_url}" alt="Bananes mûres"><span class="product-card__badge">Fruits</span><h2>Banane</h2><p>Des bananes simples à emporter, à partager ou à utiliser en dessert.</p><strong>3 500 Ar / kg</strong></article>
+                <article class="product-card"><img src="{$oil_url}" alt="Huile de tournesol"><span class="product-card__badge">Épicerie salée</span><h2>Huile de tournesol 1L</h2><p>Une huile pratique pour la cuisine de tous les jours.</p><strong>7 000 Ar</strong></article>
+                <article class="product-card"><img src="{$eggs_url}" alt="Œufs frais"><span class="product-card__badge">Produits frais</span><h2>Œufs frais (30)</h2><p>Un format familial pour les repas, petits déjeuners et pâtisseries.</p><strong>12 000 Ar</strong></article>
+                <article class="product-card"><img src="{$hero_url}" alt="Rayon de produits frais"><span class="product-card__badge">Arrivages</span><h2>Fruits et légumes variés</h2><p>Une sélection fraîche selon les disponibilités du magasin.</p><strong>Prix affichés en rayon</strong></article>
             </div>
             <div class="content-callout">
                 <h2>Catégories proposées</h2>
-                <p>Fruits, légumes, produits secs, boissons, produits frais et articles du quotidien. Les prix restent indicatifs et peuvent être ajustés selon les arrivages.</p>
+                <p>Fruits et légumes, épicerie salée, boissons, produits d’entretien et produits locaux. Les prix restent indicatifs et peuvent être ajustés selon les arrivages.</p>
             </div>
         </section>
     </div>
@@ -733,14 +776,20 @@ HTML;
     );
 }
 
-function epicerie_membre3_elementor_contact( $contact_form_id ) {
+function epicerie_membre3_elementor_contact( $contact_form_id, $images ) {
     $shortcode = $contact_form_id ? '[contact-form-7 id="' . (int) $contact_form_id . '" title="Formulaire de contact"]' : '';
+    $magasin_url = wp_get_attachment_image_url( $images['magasin'], 'large' );
+    $magasin_url = $magasin_url ? $magasin_url : get_stylesheet_directory_uri() . '/images/imageAccueil.jpeg';
     $hero      = <<<HTML
 <section class="page-shell page-shell--contact">
     <header class="page-hero">
         <div><p class="eyebrow">Épicerie du Quartier</p><h1>Contact</h1><p>Adresse, téléphone, WhatsApp, horaires et formulaire pour joindre l’Épicerie du Quartier.</p></div>
         <aside class="page-hero__aside"><span>Ouvert lundi - samedi</span><strong>7h30 - 19h00</strong><a href="https://wa.me/261341234567">WhatsApp</a></aside>
     </header>
+    <div class="contact-visual">
+        <img src="{$magasin_url}" alt="Rayons de l'épicerie">
+        <div><h2>Une demande simple, une réponse directe</h2><p>Le formulaire sert aux réservations, questions sur les arrivages et demandes pratiques avant de passer au magasin.</p></div>
+    </div>
 </section>
 HTML;
 
@@ -788,13 +837,18 @@ HTML;
     );
 }
 
-function epicerie_membre3_elementor_reviews() {
+function epicerie_membre3_elementor_reviews( $images ) {
+    $client_url = get_stylesheet_directory_uri() . '/images/client1.jpeg';
     $html = <<<HTML
 <section class="page-shell page-shell--avis-et-e-reputation">
     <header class="page-hero">
         <div><p class="eyebrow">Épicerie du Quartier</p><h1>Avis et e-réputation</h1><p>Avis clients, présence sur les réseaux sociaux et méthode simple pour suivre l’e-réputation du magasin.</p></div>
         <aside class="page-hero__aside"><span>Objectif</span><strong>Répondre vite</strong><a href="/epicerie/contact/">Contact</a></aside>
     </header>
+    <div class="review-visual">
+        <img src="{$client_url}" alt="Client satisfait de l'épicerie">
+        <div><h2>Des retours clients suivis avec sérieux</h2><p>Chaque avis aide à améliorer l’accueil, les prix affichés, la disponibilité des produits et la communication du magasin.</p></div>
+    </div>
     <div class="content-wrap">
 HTML;
     $html .= epicerie_membre3_reviews_page_content();

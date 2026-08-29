@@ -40,11 +40,26 @@
             </ul>
         </div>
         <div>
+            <h2>Nos produits</h2>
+            <div class="site-footer__links">
+                <a href="<?php echo esc_url( home_url( '/offre-produits/' ) ); ?>">Fruits et légumes</a>
+                <a href="<?php echo esc_url( home_url( '/offre-produits/' ) ); ?>">Épicerie salée</a>
+                <a href="<?php echo esc_url( home_url( '/offre-produits/' ) ); ?>">Boissons</a>
+                <a href="<?php echo esc_url( home_url( '/offre-produits/' ) ); ?>">Produits d’entretien</a>
+            </div>
+        </div>
+        <div>
             <h2>Suivez-nous</h2>
             <div class="site-footer__social">
                 <a href="https://www.facebook.com/epicerieduquartier" aria-label="Facebook">f</a>
                 <a href="https://www.instagram.com/epicerieduquartier" aria-label="Instagram">ig</a>
                 <a href="https://wa.me/261341234567" aria-label="WhatsApp">wa</a>
+            </div>
+            <h2>Paiements acceptés</h2>
+            <div class="payment-row" aria-label="Paiements acceptés">
+                <span>MVola</span>
+                <span>VISA</span>
+                <span>MC</span>
             </div>
         </div>
     </div>
