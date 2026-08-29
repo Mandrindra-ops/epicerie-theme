@@ -23,6 +23,8 @@
             <h2>Liens rapides</h2>
             <div class="site-footer__links">
                 <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Accueil</a>
+                <a href="<?php echo esc_url( home_url( '/a-propos/' ) ); ?>">À propos</a>
+                <a href="<?php echo esc_url( home_url( '/offre-produits/' ) ); ?>">Produits</a>
                 <a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a>
                 <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact</a>
                 <a href="<?php echo esc_url( home_url( '/avis-et-e-reputation/' ) ); ?>">Avis et réputation</a>

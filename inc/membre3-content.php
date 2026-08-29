@@ -6,7 +6,7 @@ function epicerie_membre3_seed_content() {
         return;
     }
 
-    $version = 'elementor-pages-1';
+    $version = 'membres-1-2-elementor-2';
 
     if ( get_option( 'epicerie_membre3_seed_version' ) === $version ) {
         return;
@@ -38,6 +38,11 @@ function epicerie_membre3_seed_content() {
     $image_fruits  = epicerie_membre3_media_id( 'fruitetlegum.jpeg', 'Fruits et légumes frais rangés en cagettes', 'Fruits et légumes de saison' );
     $image_magasin = epicerie_membre3_media_id( 'imageAccueil.jpeg', 'Rayons simples avec des produits du quotidien', 'Rayons de l’épicerie' );
     $image_hero    = epicerie_membre3_media_id( 'hero-produits-frais.png', 'Fruits et légumes frais présentés en cagettes', 'Produits frais de saison' );
+
+    if ( $image_hero ) {
+        set_theme_mod( 'custom_logo', $image_hero );
+        update_option( 'site_icon', $image_hero );
+    }
 
     $post_1 = epicerie_membre3_upsert_post(
         'post',
@@ -99,6 +104,32 @@ function epicerie_membre3_seed_content() {
             '_yoast_wpseo_title'    => 'Épicerie du Quartier - Produits frais à Antananarivo',
             '_yoast_wpseo_metadesc' => 'Épicerie locale à Antananarivo : produits frais, courses du quotidien, conseils pratiques et contact direct.',
             '_yoast_wpseo_focuskw'  => 'épicerie locale',
+        )
+    );
+
+    $about_page = epicerie_membre3_upsert_post(
+        'page',
+        'a-propos',
+        'À propos',
+        epicerie_membre3_about_page_content(),
+        'Histoire, équipe, valeurs et crédibilité de l’Épicerie du Quartier.',
+        array(
+            '_yoast_wpseo_title'    => 'À propos - Épicerie du Quartier',
+            '_yoast_wpseo_metadesc' => 'Découvrez l’histoire, l’équipe et les valeurs de l’Épicerie du Quartier à Antananarivo.',
+            '_yoast_wpseo_focuskw'  => 'épicerie de quartier',
+        )
+    );
+
+    $products_page = epicerie_membre3_upsert_post(
+        'page',
+        'offre-produits',
+        'Offre / Produits',
+        epicerie_membre3_products_page_content(),
+        'Produits phares, catégories et prix indicatifs de l’Épicerie du Quartier.',
+        array(
+            '_yoast_wpseo_title'    => 'Offre et produits - Épicerie du Quartier',
+            '_yoast_wpseo_metadesc' => 'Découvrez les produits phares de l’Épicerie du Quartier : fruits, légumes, produits secs, boissons et articles du quotidien.',
+            '_yoast_wpseo_focuskw'  => 'produits épicerie',
         )
     );
 
@@ -174,6 +205,8 @@ function epicerie_membre3_seed_content() {
     epicerie_membre3_apply_elementor_pages(
         array(
             'front'   => $front_page,
+            'about'   => $about_page,
+            'products' => $products_page,
             'blog'    => $blog_page,
             'contact' => $contact_page,
             'reviews' => $reviews_page,
@@ -192,6 +225,8 @@ function epicerie_membre3_seed_content() {
     epicerie_membre3_update_menu(
         array(
             'Accueil'             => 0,
+            'À propos'            => $about_page,
+            'Produits'            => $products_page,
             'Blog'                => $blog_page,
             'Contact'             => $contact_page,
             'Avis et réputation'  => $reviews_page,
@@ -406,6 +441,16 @@ function epicerie_membre3_apply_elementor_pages( $pages, $images, $contact_form_
     );
 
     epicerie_membre3_set_elementor_page(
+        $pages['about'],
+        epicerie_membre3_elementor_about()
+    );
+
+    epicerie_membre3_set_elementor_page(
+        $pages['products'],
+        epicerie_membre3_elementor_products( $images )
+    );
+
+    epicerie_membre3_set_elementor_page(
         $pages['blog'],
         epicerie_membre3_elementor_blog()
     );
@@ -461,7 +506,7 @@ function epicerie_membre3_elementor_section( $seed, $widgets, $settings = array(
                 'layout'        => 'full_width',
                 'content_width' => array(
                     'unit' => 'px',
-                    'size' => 1540,
+                    'size' => 1440,
                 ),
                 'gap'           => 'default',
             ),
@@ -488,7 +533,7 @@ function epicerie_membre3_elementor_columns_section( $seed, $left_widgets, $righ
                 'layout'        => 'full_width',
                 'content_width' => array(
                     'unit' => 'px',
-                    'size' => 1540,
+                    'size' => 1440,
                 ),
                 'gap'           => 'default',
             ),
@@ -574,6 +619,20 @@ HTML;
 </section>
 HTML;
 
+    $products = <<<HTML
+<section class="section section-products-home">
+    <div class="section__heading section__heading-row">
+        <div><p class="eyebrow">Produits phares</p><h2>Des essentiels bien choisis</h2></div>
+        <a class="button button-small" href="/epicerie/offre-produits/">Voir les produits -&gt;</a>
+    </div>
+    <div class="product-grid product-grid--home">
+        <article class="product-card product-card--compact"><span class="product-card__badge">Fruits</span><h3>Fruits de saison</h3><p>Mangues, bananes, oranges et fruits disponibles selon l’arrivage.</p><strong>À partir de Ar 3 500 / kg</strong></article>
+        <article class="product-card product-card--compact"><span class="product-card__badge">Légumes</span><h3>Légumes frais</h3><p>Tomates, carottes, brèdes, courgettes et légumes simples à cuisiner.</p><strong>À partir de Ar 2 800 / botte</strong></article>
+        <article class="product-card product-card--compact"><span class="product-card__badge">Quotidien</span><h3>Courses utiles</h3><p>Riz, huile, sucre, boissons et produits pratiques pour compléter les repas.</p><strong>Prix visibles en magasin</strong></article>
+    </div>
+</section>
+HTML;
+
     $blog = <<<HTML
 <section class="section section-muted">
     <div class="section__heading section__heading-row">
@@ -587,7 +646,63 @@ HTML;
     return array(
         epicerie_membre3_elementor_section( 'home-hero', array( epicerie_membre3_elementor_html_widget( 'home-hero', $hero ) ) ),
         epicerie_membre3_elementor_section( 'home-features', array( epicerie_membre3_elementor_html_widget( 'home-features', $features ) ) ),
+        epicerie_membre3_elementor_section( 'home-products', array( epicerie_membre3_elementor_html_widget( 'home-products', $products ) ) ),
         epicerie_membre3_elementor_section( 'home-blog', array( epicerie_membre3_elementor_html_widget( 'home-blog', $blog ) ) ),
+    );
+}
+
+function epicerie_membre3_elementor_about() {
+    $html = <<<HTML
+<section class="page-shell page-shell--a-propos">
+    <header class="page-hero">
+        <div><p class="eyebrow">Notre histoire</p><h1>Une épicerie proche, simple et attentive.</h1><p>L’Épicerie du Quartier rassemble les produits utiles du quotidien avec un accueil direct, des rayons lisibles et des conseils adaptés aux besoins des habitants.</p></div>
+        <aside class="page-hero__aside"><span>Engagement</span><strong>Fraîcheur et confiance</strong><a href="/epicerie/contact/">Nous contacter</a></aside>
+    </header>
+    <div class="content-wrap">
+HTML;
+    $html .= epicerie_membre3_about_page_content();
+    $html .= '</div></section>';
+
+    return array(
+        epicerie_membre3_elementor_section( 'about-page', array( epicerie_membre3_elementor_html_widget( 'about-page', $html ) ) ),
+    );
+}
+
+function epicerie_membre3_elementor_products( $images ) {
+    $fruits_url  = wp_get_attachment_image_url( $images['fruits'], 'medium_large' );
+    $magasin_url = wp_get_attachment_image_url( $images['magasin'], 'medium_large' );
+    $local_url   = wp_get_attachment_image_url( $images['local'], 'medium_large' );
+    $fruits_url  = $fruits_url ? $fruits_url : get_stylesheet_directory_uri() . '/images/fruitetlegum.jpeg';
+    $magasin_url = $magasin_url ? $magasin_url : get_stylesheet_directory_uri() . '/images/imageAccueil.jpeg';
+    $local_url   = $local_url ? $local_url : get_stylesheet_directory_uri() . '/images/magasin_image.jpeg';
+
+    $html = <<<HTML
+<section class="page-shell page-shell--offre-produits">
+    <header class="page-hero">
+        <div><p class="eyebrow">Offre / Produits</p><h1>Des rayons clairs pour les courses du quotidien.</h1><p>Les fiches ci-dessous présentent les familles de produits, les prix indicatifs et les usages les plus pratiques pour choisir rapidement.</p></div>
+        <aside class="page-hero__aside"><span>Rayons</span><strong>Frais, sec et pratique</strong><a href="/epicerie/contact/">Demander un produit</a></aside>
+    </header>
+    <div class="content-wrap">
+        <section class="epicerie-section">
+            <div class="product-grid">
+                <article class="product-card"><img src="{$fruits_url}" alt="Fruits frais en rayon"><span class="product-card__badge">Fruits</span><h2>Fruits de saison</h2><p>Mangues, bananes, oranges et fruits sélectionnés selon l’arrivage.</p><strong>Ar 3 500 / kg</strong></article>
+                <article class="product-card"><img src="{$fruits_url}" alt="Légumes frais en cagettes"><span class="product-card__badge">Légumes</span><h2>Légumes frais</h2><p>Tomates, carottes, brèdes et courgettes pour les repas simples.</p><strong>Ar 2 800 / botte</strong></article>
+                <article class="product-card"><img src="{$magasin_url}" alt="Rayon de produits secs"><span class="product-card__badge">Produits secs</span><h2>Riz local</h2><p>Un indispensable du quotidien, disponible en petites et grandes quantités.</p><strong>Ar 4 200 / kg</strong></article>
+                <article class="product-card"><img src="{$local_url}" alt="Boissons et produits locaux"><span class="product-card__badge">Boissons</span><h2>Jus naturel</h2><p>Une option fraîche pour accompagner les courses ou une pause rapide.</p><strong>Ar 2 500 / bouteille</strong></article>
+                <article class="product-card"><img src="{$magasin_url}" alt="Produits frais du magasin"><span class="product-card__badge">Frais</span><h2>Œufs frais</h2><p>Des œufs pratiques pour les repas rapides, pâtisseries et petits déjeuners.</p><strong>Ar 900 / pièce</strong></article>
+                <article class="product-card"><img src="{$local_url}" alt="Articles utiles du quotidien"><span class="product-card__badge">Quotidien</span><h2>Savon & entretien</h2><p>Des articles simples pour compléter les achats de la maison.</p><strong>Ar 1 500 / unité</strong></article>
+            </div>
+            <div class="content-callout">
+                <h2>Catégories proposées</h2>
+                <p>Fruits, légumes, produits secs, boissons, produits frais et articles du quotidien. Les prix restent indicatifs et peuvent être ajustés selon les arrivages.</p>
+            </div>
+        </section>
+    </div>
+</section>
+HTML;
+
+    return array(
+        epicerie_membre3_elementor_section( 'products-page', array( epicerie_membre3_elementor_html_widget( 'products-page', $html ) ) ),
     );
 }
 
@@ -765,6 +880,63 @@ function epicerie_membre3_blog_page_content() {
 HTML;
 }
 
+function epicerie_membre3_about_page_content() {
+    return <<<HTML
+<section class="epicerie-section epicerie-about-intro">
+    <div class="about-lead">
+        <p class="eyebrow">À propos</p>
+        <h2>Un magasin pensé pour les habitants du quartier</h2>
+        <p>L’Épicerie du Quartier existe pour rendre les courses plus simples : des produits faciles à trouver, des prix lisibles, un accueil direct et des conseils honnêtes quand un client hésite entre plusieurs choix.</p>
+    </div>
+
+    <div class="about-grid">
+        <article class="info-card">
+            <h2>Histoire</h2>
+            <p>Le projet part d’un besoin très concret : avoir près de chez soi une épicerie propre, organisée et capable de proposer les essentiels sans obliger les clients à se déplacer loin pour une petite course.</p>
+        </article>
+        <article class="info-card">
+            <h2>Équipe</h2>
+            <p>L’équipe s’occupe de l’accueil, du rangement des rayons, de la vérification des produits frais et des demandes reçues par téléphone, WhatsApp ou formulaire de contact.</p>
+        </article>
+        <article class="info-card">
+            <h2>Valeurs</h2>
+            <p>La priorité est de garder une relation simple avec les clients : écouter les besoins, expliquer les choix, mettre en avant les produits utiles et éviter les informations compliquées.</p>
+        </article>
+        <article class="info-card">
+            <h2>Crédibilité</h2>
+            <p>Le magasin met en avant des rayons propres, des produits contrôlés, des avis clients suivis et des coordonnées claires pour que chaque visiteur puisse vérifier les informations facilement.</p>
+        </article>
+    </div>
+
+    <div class="values-row">
+        <span>Fraîcheur</span>
+        <span>Proximité</span>
+        <span>Prix lisibles</span>
+        <span>Conseils utiles</span>
+    </div>
+</section>
+HTML;
+}
+
+function epicerie_membre3_products_page_content() {
+    return <<<HTML
+<section class="epicerie-section epicerie-products-intro">
+    <p class="eyebrow">Offre / Produits</p>
+    <h2>Des produits organisés par besoin</h2>
+    <p>Les rayons sont pensés pour aller vite : produits frais pour cuisiner, produits secs pour compléter les repas, boissons pour les pauses et articles pratiques pour la maison.</p>
+
+    <div class="product-grid">
+        <article class="product-card product-card--text"><span class="product-card__badge">Fruits</span><h2>Fruits de saison</h2><p>Mangues, bananes, oranges et fruits disponibles selon l’arrivage.</p><strong>Ar 3 500 / kg</strong></article>
+        <article class="product-card product-card--text"><span class="product-card__badge">Légumes</span><h2>Légumes frais</h2><p>Tomates, carottes, brèdes et légumes faciles à cuisiner.</p><strong>Ar 2 800 / botte</strong></article>
+        <article class="product-card product-card--text"><span class="product-card__badge">Produits secs</span><h2>Riz local</h2><p>Un produit de base disponible selon la quantité souhaitée.</p><strong>Ar 4 200 / kg</strong></article>
+        <article class="product-card product-card--text"><span class="product-card__badge">Boissons</span><h2>Jus naturel</h2><p>Une boisson simple pour accompagner les courses ou le goûter.</p><strong>Ar 2 500 / bouteille</strong></article>
+        <article class="product-card product-card--text"><span class="product-card__badge">Frais</span><h2>Œufs frais</h2><p>Pratiques pour les repas rapides, les pâtisseries et le petit déjeuner.</p><strong>Ar 900 / pièce</strong></article>
+        <article class="product-card product-card--text"><span class="product-card__badge">Quotidien</span><h2>Savon & entretien</h2><p>Des articles utiles pour compléter les achats de la maison.</p><strong>Ar 1 500 / unité</strong></article>
+    </div>
+</section>
+HTML;
+}
+
 function epicerie_membre3_contact_page_content( $form_id ) {
     $shortcode = $form_id ? '[contact-form-7 id="' . (int) $form_id . '" title="Formulaire de contact"]' : '';
 
@@ -809,6 +981,27 @@ function epicerie_membre3_reviews_page_content() {
 <section class="epicerie-section epicerie-reviews">
     <h2>Gestion des avis</h2>
     <p>Les avis clients permettent de suivre la qualité du service, de répondre avec respect et de montrer que l’épicerie reste attentive aux remarques du quartier.</p>
+
+    <div class="testimonial-grid">
+        <article class="testimonial-card">
+            <span>★★★★★</span>
+            <h2>Avis positif</h2>
+            <p>“Accueil très agréable, légumes frais et rayons faciles à comprendre. On trouve vite ce qu’il faut pour les courses du quotidien.”</p>
+            <small>Réponse : Merci pour votre retour. Nous sommes heureux que l’organisation du magasin et la fraîcheur des produits vous conviennent.</small>
+        </article>
+        <article class="testimonial-card">
+            <span>★★★☆☆</span>
+            <h2>Avis mitigé</h2>
+            <p>“Bon accueil, mais certains prix n’étaient pas assez visibles dans le rayon.”</p>
+            <small>Réponse : Merci pour la remarque. Nous allons renforcer l’affichage des prix pour rendre les achats plus simples.</small>
+        </article>
+        <article class="testimonial-card">
+            <span>★☆☆☆☆</span>
+            <h2>Avis négatif</h2>
+            <p>“Je n’ai pas trouvé le produit que je cherchais et je n’ai pas su quand il serait disponible.”</p>
+            <small>Réponse : Nous sommes désolés pour cette expérience. Vous pouvez nous contacter pour vérifier les arrivages avant votre passage.</small>
+        </article>
+    </div>
 
     <div class="epicerie-grid reputation-grid">
         <article class="info-card">
@@ -967,44 +1160,33 @@ function epicerie_membre3_update_menu( $items ) {
     }
 
     $existing_items = wp_get_nav_menu_items( $menu_id );
-    $existing_ids   = array();
 
     if ( $existing_items ) {
         foreach ( $existing_items as $item ) {
-            $existing_ids[] = (int) $item->object_id;
+            wp_delete_post( $item->ID, true );
         }
     }
 
+    $position = 1;
+
     foreach ( $items as $label => $post_id ) {
         if ( 'Accueil' === $label ) {
-            $has_home = false;
-
-            if ( $existing_items ) {
-                foreach ( $existing_items as $item ) {
-                    if ( 'custom' === $item->type && untrailingslashit( $item->url ) === untrailingslashit( home_url( '/' ) ) ) {
-                        $has_home = true;
-                        break;
-                    }
-                }
-            }
-
-            if ( ! $has_home ) {
-                wp_update_nav_menu_item(
-                    $menu_id,
-                    0,
-                    array(
-                        'menu-item-title'  => $label,
-                        'menu-item-url'    => home_url( '/' ),
-                        'menu-item-type'   => 'custom',
-                        'menu-item-status' => 'publish',
-                    )
-                );
-            }
-
+            wp_update_nav_menu_item(
+                $menu_id,
+                0,
+                array(
+                    'menu-item-title'    => $label,
+                    'menu-item-url'      => home_url( '/' ),
+                    'menu-item-type'     => 'custom',
+                    'menu-item-status'   => 'publish',
+                    'menu-item-position' => $position,
+                )
+            );
+            $position++;
             continue;
         }
 
-        if ( ! $post_id || in_array( (int) $post_id, $existing_ids, true ) ) {
+        if ( ! $post_id ) {
             continue;
         }
 
@@ -1017,39 +1199,15 @@ function epicerie_membre3_update_menu( $items ) {
                 'menu-item-object-id' => $post_id,
                 'menu-item-type'      => 'post_type',
                 'menu-item-status'    => 'publish',
+                'menu-item-position'  => $position,
             )
         );
-    }
-
-    $ordered_items = wp_get_nav_menu_items( $menu_id );
-    $position      = 1;
-
-    foreach ( $items as $label => $post_id ) {
-        if ( ! $ordered_items ) {
-            break;
-        }
-
-        foreach ( $ordered_items as $item ) {
-            $is_home = 'Accueil' === $label && 'custom' === $item->type && untrailingslashit( $item->url ) === untrailingslashit( home_url( '/' ) );
-            $is_page = 'Accueil' !== $label && (int) $item->object_id === (int) $post_id;
-
-            if ( $is_home || $is_page ) {
-                wp_update_post(
-                    array(
-                        'ID'         => $item->ID,
-                        'menu_order' => $position,
-                    )
-                );
-                $position++;
-                break;
-            }
-        }
+        $position++;
     }
 
     $locations = get_theme_mod( 'nav_menu_locations', array() );
 
-    if ( empty( $locations['primary'] ) ) {
-        $locations['primary'] = $menu_id;
-        set_theme_mod( 'nav_menu_locations', $locations );
-    }
+    $locations['primary'] = $menu_id;
+    $locations['footer']  = $menu_id;
+    set_theme_mod( 'nav_menu_locations', $locations );
 }
