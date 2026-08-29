@@ -6,7 +6,7 @@ function epicerie_membre3_seed_content() {
         return;
     }
 
-    $version = 'design-pro-elementor-1';
+    $version = 'design-pro-elementor-2';
 
     if ( get_option( 'epicerie_membre3_seed_version' ) === $version ) {
         return;
@@ -894,7 +894,7 @@ function epicerie_membre3_recent_post_cards_html() {
             $html .= '<article class="post-card">';
             $html .= '<a class="post-card__image" href="' . esc_url( get_permalink() ) . '"><img src="' . esc_url( $image ) . '" alt=""></a>';
             $html .= '<div class="post-card__body">';
-            $html .= '<div class="post-card__meta"><span>' . esc_html( epicerie_author_display_name() ) . '</span><span>' . esc_html( wp_strip_all_tags( get_the_category_list( ', ' ) ) ) . '</span></div>';
+            $html .= '<div class="post-card__meta"><span>' . esc_html( wp_strip_all_tags( get_the_category_list( ', ' ) ) ) . '</span></div>';
             $html .= '<h3><a href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a></h3>';
             $html .= '<p>' . esc_html( wp_trim_words( get_the_excerpt(), 24 ) ) . '</p>';
             $html .= '<a class="post-card__link" href="' . esc_url( get_permalink() ) . '">Lire l’article</a>';

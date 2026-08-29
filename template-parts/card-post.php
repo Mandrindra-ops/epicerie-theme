@@ -8,7 +8,6 @@
     </a>
     <div class="post-card__body">
         <div class="post-card__meta">
-            <span><?php echo esc_html( epicerie_author_display_name() ); ?></span>
             <span><?php echo esc_html( wp_strip_all_tags( get_the_category_list( ', ' ) ) ); ?></span>
         </div>
         <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
