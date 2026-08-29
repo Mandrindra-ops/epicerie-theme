@@ -903,6 +903,54 @@ img {
     }
 }
 
+/* Large, mais pas trop: le site respire sans rester petit au centre. */
+:root {
+    --epicerie-site-width: min(1540px, calc(100vw - 48px));
+}
+
+body:not([class*="elementor-page-"]) .site-main,
+body:not([class*="elementor-page-"]) .site-header__inner {
+    width: var(--epicerie-site-width) !important;
+    max-width: var(--epicerie-site-width) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.site-header__inner,
+.hero,
+.section,
+.section-muted,
+.section-muted > *,
+.page-shell,
+.article-shell,
+.page-hero,
+.content-wrap,
+.quick-filter,
+.site-footer__inner {
+    width: 100%;
+    max-width: none;
+}
+
+.site-footer__inner {
+    width: var(--epicerie-site-width);
+}
+
+@media (max-width: 720px) {
+    :root {
+        --epicerie-site-width: 100vw;
+    }
+
+    body:not([class*="elementor-page-"]) .site-main {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    body:not([class*="elementor-page-"]) .site-header__inner {
+        width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+}
+
 .hero {
     margin-top: 18px;
 }
@@ -1831,5 +1879,32 @@ body:not([class*="elementor-page-"]) .site-main {
     .review-response-grid,
     .search-page__results {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Reduction finale: large, mais avec une marge confortable. */
+body:not([class*="elementor-page-"]) .site-main,
+body:not([class*="elementor-page-"]) .site-header__inner {
+    width: calc(100% - 48px) !important;
+    max-width: 1540px !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.site-footer__inner {
+    width: calc(100% - 48px);
+    max-width: 1540px;
+}
+
+@media (max-width: 720px) {
+    body:not([class*="elementor-page-"]) .site-main {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    body:not([class*="elementor-page-"]) .site-header__inner,
+    .site-footer__inner {
+        width: calc(100% - 20px) !important;
+        max-width: calc(100% - 20px) !important;
     }
 }
