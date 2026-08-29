@@ -1156,3 +1156,167 @@ img {
         margin: 0 14px 0 0;
     }
 }
+
+.site-main {
+    padding-top: 4px;
+}
+
+.hero {
+    grid-template-columns: 1fr 0.9fr;
+    max-width: 1120px;
+    gap: 24px;
+    padding-bottom: 34px;
+}
+
+.hero__media {
+    min-height: 420px;
+}
+
+.hero__content {
+    min-height: 420px;
+    padding: 42px;
+}
+
+.hero h1 {
+    max-width: 460px;
+    font-size: 2.85rem;
+    line-height: 1.08;
+}
+
+.hero p:not(.eyebrow) {
+    max-width: 470px;
+    font-size: 1rem;
+}
+
+.section {
+    max-width: 1120px;
+    padding-top: 44px;
+    padding-bottom: 44px;
+}
+
+.section__heading {
+    margin-bottom: 22px;
+}
+
+.section__heading h2 {
+    font-size: 1.95rem;
+}
+
+.feature-grid,
+.post-grid {
+    gap: 20px;
+}
+
+.feature-card {
+    min-height: 156px;
+}
+
+.post-card {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+}
+
+.post-card__image {
+    height: 220px;
+    aspect-ratio: auto;
+}
+
+.post-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.post-card h3 {
+    min-height: 58px;
+    margin-top: 12px;
+}
+
+.post-card p {
+    flex: 1;
+}
+
+.post-card__link {
+    margin-top: 18px;
+}
+
+.page-shell,
+.article-shell {
+    max-width: 1120px;
+}
+
+.article-content {
+    max-width: 760px;
+}
+
+.article-content h2 {
+    font-size: 1.45rem;
+    line-height: 1.25;
+}
+
+.article-content p {
+    font-size: 1rem;
+}
+
+.site-footer__inner {
+    max-width: 1120px;
+}
+
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+        max-width: 720px;
+    }
+
+    .hero__media,
+    .hero__content {
+        min-height: auto;
+    }
+
+    .hero__media {
+        height: 360px;
+    }
+
+    .post-card h3 {
+        min-height: 0;
+    }
+}
+
+@media (max-width: 720px) {
+    .hero {
+        max-width: 420px;
+        padding-bottom: 22px;
+    }
+
+    .hero__media {
+        height: 318px;
+    }
+
+    .hero__content {
+        padding: 26px 24px;
+    }
+
+    .hero h1 {
+        font-size: 2.05rem;
+        line-height: 1.12;
+    }
+
+    .hero p:not(.eyebrow) {
+        font-size: 0.98rem;
+    }
+
+    .section {
+        padding-top: 36px;
+        padding-bottom: 36px;
+    }
+
+    .section__heading h2 {
+        font-size: 1.8rem;
+    }
+
+    .post-card__image {
+        height: 210px;
+    }
+}
