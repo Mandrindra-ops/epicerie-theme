@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="site-footer__bar">
-        <span>© <?php echo esc_html( date_i18n( 'Y' ) ); ?> Épicerie du Quartier. Tous droits réservés.</span>
+        <span>© Épicerie du Quartier. Tous droits réservés.</span>
         <span>
             <a href="<?php echo esc_url( home_url( '/mentions-legales/' ) ); ?>">Mentions légales</a>
             <a href="<?php echo esc_url( home_url( '/confidentialite/' ) ); ?>">Confidentialité</a>

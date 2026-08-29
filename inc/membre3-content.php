@@ -6,7 +6,7 @@ function epicerie_membre3_seed_content() {
         return;
     }
 
-    $version = '2026-08-29-1';
+    $version = 'contenu-photo-sans-date-1';
 
     if ( get_option( 'epicerie_membre3_seed_version' ) === $version ) {
         return;
@@ -432,7 +432,7 @@ function epicerie_membre3_contact_page_content( $form_id ) {
         </div>
         <div class="epicerie-form">
             <h2>Formulaire</h2>
-            <p>Indiquez votre demande avec le plus de détails possible : produit recherché, quantité, date souhaitée ou question pratique.</p>
+            <p>Indiquez votre demande avec le plus de détails possible : produit recherché, quantité, moment souhaité ou question pratique.</p>
             {$shortcode}
         </div>
     </div>
@@ -494,7 +494,7 @@ function epicerie_membre3_reviews_page_content() {
 
     <div class="content-callout">
         <h2>Procédure de veille</h2>
-        <p>Chaque semaine, le nom de l’épicerie est vérifié sur Google, Facebook et Instagram. Les messages WhatsApp sont consultés chaque jour. Les avis importants sont notés avec la date, le problème, la réponse donnée et l’action à faire.</p>
+        <p>Chaque semaine, le nom de l’épicerie est vérifié sur Google, Facebook et Instagram. Les messages WhatsApp sont consultés régulièrement. Les avis importants sont notés avec le sujet, la réponse donnée et l’action à faire.</p>
     </div>
 </section>
 HTML;

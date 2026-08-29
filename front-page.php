@@ -2,7 +2,7 @@
 
 <section class="hero">
     <div class="hero__media">
-        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/images/imageAccueil.jpeg' ); ?>" alt="Rayons de l’épicerie avec des produits du quotidien">
+        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/images/hero-produits-frais.png' ); ?>" alt="Fruits et légumes frais présentés en cagettes">
     </div>
     <div class="hero__content">
         <span class="leaf leaf-one" aria-hidden="true"></span>
