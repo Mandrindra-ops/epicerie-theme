@@ -31,4 +31,29 @@ function epicerie_author_display_name() {
     return 'Telina';
 }
 
+function epicerie_document_title_parts( $title ) {
+    if ( is_search() ) {
+        $query          = trim( get_search_query() );
+        $title['title'] = $query ? 'Recherche : ' . $query : 'Recherche';
+    }
+
+    return $title;
+}
+add_filter( 'document_title_parts', 'epicerie_document_title_parts' );
+
+function epicerie_search_title() {
+    if ( is_search() ) {
+        $query = trim( get_search_query() );
+        return ( $query ? 'Recherche : ' . $query : 'Recherche' ) . ' - Épicerie du Quartier';
+    }
+
+    return null;
+}
+
+function epicerie_wpseo_title( $title ) {
+    $search_title = epicerie_search_title();
+    return $search_title ? $search_title : $title;
+}
+add_filter( 'wpseo_title', 'epicerie_wpseo_title' );
+
 require_once get_stylesheet_directory() . '/inc/membre3-content.php';

@@ -13,6 +13,6 @@
         </div>
         <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
         <p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
-        <a class="post-card__link" href="<?php the_permalink(); ?>">Lire l article</a>
+        <a class="post-card__link" href="<?php the_permalink(); ?>">Lire l’article</a>
     </div>
 </article>

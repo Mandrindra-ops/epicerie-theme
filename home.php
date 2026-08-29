@@ -2,10 +2,30 @@
 
 <section class="page-shell blog-archive">
     <header class="page-hero">
-        <p class="eyebrow">Blog</p>
-        <h1>Articles récents</h1>
-        <p>Conseils, actualités et coulisses de l Épicerie du Quartier.</p>
+        <div>
+            <p class="eyebrow">Blog</p>
+            <h1>Articles récents</h1>
+            <p>Conseils pratiques, achat local et coulisses de l’Épicerie du Quartier pour mieux choisir au quotidien.</p>
+        </div>
+        <form role="search" method="get" class="search-panel search-panel--compact" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+            <label for="blog-search">Rechercher un article</label>
+            <div class="search-panel__row">
+                <input id="blog-search" type="search" name="s" placeholder="Ex : fruits, local, contact" value="<?php echo esc_attr( get_search_query() ); ?>">
+                <button type="submit">Rechercher</button>
+            </div>
+        </form>
     </header>
+
+    <ul class="quick-filter" aria-label="Catégories du blog">
+        <?php
+        wp_list_categories(
+            array(
+                'title_li' => '',
+                'style'    => 'list',
+            )
+        );
+        ?>
+    </ul>
 
     <div class="post-grid blog-archive__grid">
         <?php
@@ -21,7 +41,7 @@
             endwhile;
         else :
             ?>
-            <p>Aucun article disponible pour le moment.</p>
+            <p class="empty-state">Aucun article disponible pour le moment.</p>
             <?php
         endif;
         ?>

@@ -6,7 +6,7 @@ function epicerie_membre3_seed_content() {
         return;
     }
 
-    $version = '2026-08-28-7';
+    $version = '2026-08-29-1';
 
     if ( get_option( 'epicerie_membre3_seed_version' ) === $version ) {
         return;
@@ -385,6 +385,7 @@ function epicerie_membre3_blog_page_content() {
 <section class="epicerie-section epicerie-blog-intro">
     <h2>Nos articles</h2>
     <p>Le blog rassemble des conseils utiles pour mieux choisir ses produits, comprendre l’intérêt de l’achat local et découvrir les petites habitudes de l’épicerie.</p>
+    <p>Chaque article répond à une question simple : pourquoi acheter plus près, comment reconnaître un produit frais et comment fonctionne une épicerie de quartier au quotidien.</p>
 </section>
 
 <section class="epicerie-grid epicerie-blog-links">
@@ -413,17 +414,25 @@ function epicerie_membre3_contact_page_content( $form_id ) {
     return <<<HTML
 <section class="epicerie-section epicerie-contact">
     <h2>Nous joindre facilement</h2>
-    <p>Pour connaître les arrivages, réserver un produit ou poser une question, vous pouvez passer au magasin, appeler ou envoyer un message.</p>
-    <div class="epicerie-grid">
-        <div>
+    <p>Pour connaître les arrivages, réserver un produit ou poser une question, vous pouvez passer au magasin, appeler ou envoyer un message. Les demandes simples sont traitées rapidement pendant les horaires d’ouverture.</p>
+    <div class="epicerie-grid contact-grid">
+        <div class="info-card">
             <h2>Coordonnées</h2>
-            <p><strong>Adresse :</strong> Lot II M 45, Antananarivo 101, Madagascar</p>
-            <p><strong>Téléphone :</strong> +261 34 12 345 67</p>
-            <p><strong>Horaires :</strong> lundi au samedi, 7h30 à 19h00</p>
-            <p><strong>Réseaux :</strong> <a href="https://www.facebook.com/epicerieduquartier">Facebook</a>, <a href="https://www.instagram.com/epicerieduquartier">Instagram</a>, <a href="https://wa.me/261341234567">WhatsApp</a></p>
+            <ul class="contact-list">
+                <li><strong>Adresse</strong><span>Lot II M 45, Antananarivo 101, Madagascar</span></li>
+                <li><strong>Téléphone</strong><span>+261 34 12 345 67</span></li>
+                <li><strong>Horaires</strong><span>Lundi au samedi, 7h30 à 19h00</span></li>
+                <li><strong>E-mail</strong><span>contact@epicerieduquartier.mg</span></li>
+            </ul>
+            <div class="social-row">
+                <a href="https://www.facebook.com/epicerieduquartier">Facebook</a>
+                <a href="https://www.instagram.com/epicerieduquartier">Instagram</a>
+                <a href="https://wa.me/261341234567">WhatsApp</a>
+            </div>
         </div>
         <div class="epicerie-form">
             <h2>Formulaire</h2>
+            <p>Indiquez votre demande avec le plus de détails possible : produit recherché, quantité, date souhaitée ou question pratique.</p>
             {$shortcode}
         </div>
     </div>
@@ -444,31 +453,49 @@ function epicerie_membre3_reviews_page_content() {
     <h2>Gestion des avis</h2>
     <p>Les avis clients permettent de suivre la qualité du service, de répondre avec respect et de montrer que l’épicerie reste attentive aux remarques du quartier.</p>
 
-    <h2>Simulation Google Business Profile</h2>
-    <ul>
-        <li>Nom : Épicerie du Quartier</li>
-        <li>Catégorie : Épicerie</li>
-        <li>Adresse : Lot II M 45, Antananarivo 101</li>
-        <li>Téléphone : +261 34 12 345 67</li>
-        <li>Horaires : lundi au samedi, 7h30 à 19h00</li>
-        <li>Description : Épicerie de proximité avec produits frais, boissons, produits de base, fruits et légumes de saison.</li>
-    </ul>
+    <div class="epicerie-grid reputation-grid">
+        <article class="info-card">
+            <h2>Simulation Google Business Profile</h2>
+            <ul class="clean-list">
+                <li><strong>Nom :</strong> Épicerie du Quartier</li>
+                <li><strong>Catégorie :</strong> Épicerie</li>
+                <li><strong>Adresse :</strong> Lot II M 45, Antananarivo 101</li>
+                <li><strong>Téléphone :</strong> +261 34 12 345 67</li>
+                <li><strong>Horaires :</strong> lundi au samedi, 7h30 à 19h00</li>
+            </ul>
+            <p>Épicerie de proximité avec produits frais, boissons, produits de base, fruits et légumes de saison.</p>
+        </article>
 
-    <h2>Réseaux sociaux</h2>
-    <p>Facebook annonce les arrivages, les horaires spéciaux et les informations pratiques. Instagram montre les produits frais, les rayons et les coulisses. WhatsApp reste le canal le plus direct pour les petites commandes et les questions rapides.</p>
+        <article class="info-card">
+            <h2>Réseaux sociaux</h2>
+            <p>Facebook annonce les arrivages, les horaires spéciaux et les informations pratiques. Instagram montre les produits frais, les rayons et les coulisses. WhatsApp reste le canal le plus direct pour les petites commandes et les questions rapides.</p>
+            <div class="social-row">
+                <a href="https://www.facebook.com/epicerieduquartier">Facebook</a>
+                <a href="https://www.instagram.com/epicerieduquartier">Instagram</a>
+                <a href="https://wa.me/261341234567">WhatsApp</a>
+            </div>
+        </article>
+    </div>
 
-    <h2>Modèles de réponse aux avis</h2>
-    <h3>Avis positif</h3>
-    <p>Merci beaucoup pour votre avis. Nous sommes heureux que l’accueil et les produits vous aient plu. Votre retour nous encourage à garder une épicerie propre, pratique et agréable pour le quartier.</p>
+    <div class="review-response-grid">
+        <article class="response-card">
+            <span>Positif</span>
+            <p>Merci beaucoup pour votre avis. Nous sommes heureux que l’accueil et les produits vous aient plu. Votre retour nous encourage à garder une épicerie propre, pratique et agréable pour le quartier.</p>
+        </article>
+        <article class="response-card">
+            <span>Mitigé</span>
+            <p>Merci pour votre remarque. Nous sommes désolés si votre passage n’a pas été entièrement satisfaisant. Nous allons vérifier le point signalé et faire le nécessaire pour mieux vous accueillir la prochaine fois.</p>
+        </article>
+        <article class="response-card">
+            <span>Négatif</span>
+            <p>Bonjour, merci d’avoir pris le temps de nous écrire. Nous sommes désolés pour cette mauvaise expérience. Vous pouvez nous contacter directement afin que nous comprenions la situation et trouvions une solution correcte.</p>
+        </article>
+    </div>
 
-    <h3>Avis mitigé</h3>
-    <p>Merci pour votre remarque. Nous sommes désolés si votre passage n’a pas été entièrement satisfaisant. Nous allons vérifier le point signalé et faire le nécessaire pour mieux vous accueillir la prochaine fois.</p>
-
-    <h3>Avis négatif</h3>
-    <p>Bonjour, merci d’avoir pris le temps de nous écrire. Nous sommes désolés pour cette mauvaise expérience. Vous pouvez nous contacter directement au magasin ou par WhatsApp afin que nous comprenions la situation et trouvions une solution correcte.</p>
-
-    <h2>Procédure de veille</h2>
-    <p>Chaque semaine, le nom de l’épicerie est vérifié sur Google, Facebook et Instagram. Les messages WhatsApp sont consultés chaque jour. Les avis importants sont notés dans un tableau avec la date, le problème, la réponse donnée et l’action à faire.</p>
+    <div class="content-callout">
+        <h2>Procédure de veille</h2>
+        <p>Chaque semaine, le nom de l’épicerie est vérifié sur Google, Facebook et Instagram. Les messages WhatsApp sont consultés chaque jour. Les avis importants sont notés avec la date, le problème, la réponse donnée et l’action à faire.</p>
+    </div>
 </section>
 HTML;
 }
@@ -477,13 +504,20 @@ function epicerie_membre3_legal_page_content() {
     return <<<HTML
 <section class="epicerie-section">
     <h2>Responsable du site</h2>
-    <p>Ce site présente l’activité fictive de l’Épicerie du Quartier dans le cadre d’un projet WordPress réalisé pour l’examen TN2.</p>
-    <p><strong>Nom du site :</strong> Épicerie du Quartier</p>
-    <p><strong>Adresse :</strong> Antananarivo 101, Madagascar</p>
-    <p><strong>Contact :</strong> contact@epicerieduquartier.mg</p>
-
-    <h2>Contenus</h2>
-    <p>Les textes, pages et articles servent à présenter une épicerie locale, ses conseils pratiques, son formulaire de contact et sa gestion des avis clients.</p>
+    <p>Cette page rassemble les informations utiles sur le site de l’Épicerie du Quartier et sur les contenus publiés.</p>
+    <div class="epicerie-grid legal-grid">
+        <article class="info-card">
+            <h2>Identité</h2>
+            <p><strong>Nom du site :</strong> Épicerie du Quartier</p>
+            <p><strong>Adresse :</strong> Antananarivo 101, Madagascar</p>
+            <p><strong>Contact :</strong> contact@epicerieduquartier.mg</p>
+        </article>
+        <article class="info-card">
+            <h2>Contenus</h2>
+            <p>Les textes, pages et articles présentent une épicerie locale, ses conseils pratiques, son formulaire de contact et sa gestion des avis clients.</p>
+            <p>Les informations peuvent être ajustées pour correspondre aux besoins réels du projet et aux données validées par le groupe.</p>
+        </article>
+    </div>
 </section>
 HTML;
 }
@@ -493,12 +527,16 @@ function epicerie_membre3_privacy_page_content() {
 <section class="epicerie-section">
     <h2>Données envoyées par le formulaire</h2>
     <p>Les informations envoyées via la page Contact servent uniquement à répondre aux demandes des visiteurs : nom, adresse e-mail, téléphone et message.</p>
-
-    <h2>Utilisation</h2>
-    <p>Les données ne sont pas vendues et ne sont pas utilisées pour envoyer des messages publicitaires automatiques. Elles permettent seulement de traiter une question, une réservation ou une demande liée au magasin.</p>
-
-    <h2>Demande de suppression</h2>
-    <p>Un visiteur peut demander la suppression de son message en contactant l’épicerie à l’adresse contact@epicerieduquartier.mg.</p>
+    <div class="epicerie-grid privacy-grid">
+        <article class="info-card">
+            <h2>Utilisation</h2>
+            <p>Les données ne sont pas vendues et ne sont pas utilisées pour envoyer des messages publicitaires automatiques. Elles permettent seulement de traiter une question, une réservation ou une demande liée au magasin.</p>
+        </article>
+        <article class="info-card">
+            <h2>Durée et suppression</h2>
+            <p>Les messages sont conservés le temps nécessaire pour répondre correctement. Un visiteur peut demander la suppression de son message à l’adresse contact@epicerieduquartier.mg.</p>
+        </article>
+    </div>
 </section>
 HTML;
 }

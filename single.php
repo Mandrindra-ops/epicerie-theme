@@ -9,6 +9,9 @@ while ( have_posts() ) :
             <div>
                 <a class="back-link" href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Retour au blog</a>
                 <h1><?php the_title(); ?></h1>
+                <?php if ( has_excerpt() ) : ?>
+                    <p class="article-hero__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
+                <?php endif; ?>
                 <div class="article-meta">
                     <span><?php echo esc_html( get_the_date() ); ?></span>
                     <span><?php echo esc_html( epicerie_author_display_name() ); ?></span>
@@ -26,6 +29,10 @@ while ( have_posts() ) :
             <div class="article-tags">
                 <?php the_tags( '<span>Tags : </span>', ' ', '' ); ?>
             </div>
+            <nav class="article-next" aria-label="Navigation article">
+                <?php previous_post_link( '%link', 'Article précédent' ); ?>
+                <?php next_post_link( '%link', 'Article suivant' ); ?>
+            </nav>
         </div>
     </article>
 <?php endwhile; ?>
